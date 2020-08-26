@@ -1,3 +1,4 @@
+![dj_logo](https://i.pinimg.com/originals/73/b8/f2/73b8f2cac59ab9fb4078241808fbb507.jpg)
 ## Introduction
 
 this package helps to integrate [payme.uz](http://payme.uz) and your application is built on [django](https://www.djangoproject.com/).
