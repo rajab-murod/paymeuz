@@ -20,6 +20,7 @@ class CardCreateApiView(APIView):
 
     def card_create(self, validated_data):
         data = dict(
+            id=validated_data['id'],
             method=CARD_CREATE,
             params=dict(
                 card=dict(
@@ -67,6 +68,7 @@ class CardVerifyApiView(APIView):
 
     def card_verify(self, validated_data):
         data = dict(
+            id=validated_data['id'],
             method=CARD_VERIFY,
             params=dict(
                 token=validated_data['params']['token'],
@@ -92,6 +94,7 @@ class PaymentApiView(APIView):
     def receipts_create(self, token, validated_data):
         key_2 = validated_data['params']['account'][KEY_2] if KEY_2 else None
         data = dict(
+            id=validated_data['id'],
             method=RECEIPTS_CREATE,
             params=dict(
                 amount=validated_data['params']['amount'],
@@ -106,24 +109,24 @@ class PaymentApiView(APIView):
         if 'error' in result:
             return result
 
-        id = result['result']['receipt']['_id']
+        trans_id = result['result']['receipt']['_id']
         trans = Transaction()
+        print(result)
         trans.create_transaction(
-            trans_id=id,
+            trans_id=trans_id,
             request_id=result['id'],
             amount=result['result']['receipt']['amount'],
             account=result['result']['receipt']['account'],
-            state=result['result']['receipt']['state'],
             status=trans.PROCESS,
         )
-        result = self.receipts_pay(id, token)
+        result = self.receipts_pay(trans_id, token)
         return result
 
-    def receipts_pay(self, id, token):
+    def receipts_pay(self, trans_id, token):
         data = dict(
             method=RECEIPTS_PAY,
             params=dict(
-                id=id,
+                id=trans_id,
                 token=token,
             )
         )
@@ -133,15 +136,13 @@ class PaymentApiView(APIView):
 
         if 'error' in result:
             trans.update_transaction(
-                trans_id=result['result']['receipt']['_id'],
-                state=result['result']['receipt']['state'],
+                trans_id=trans_id,
                 status=trans.FAILED,
             )
             return result
 
         trans.update_transaction(
             trans_id=result['result']['receipt']['_id'],
-            state=result['result']['receipt']['state'],
             status=trans.PAID,
         )
 
