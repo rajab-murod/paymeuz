@@ -24,14 +24,14 @@ INSTALLED_APPS = [
      ...
 ]
 
-PAYMEUZ_SETTINGS = {
-  'DEBUG' : True   # True - test, False - production.
-  'MERCHANT_ID' : '',
-  'SECRET_KEY' : '',
-  'ACCOUNTS' : {
-    'KEY_1' : '',
-    'KEY_2' : ''
-  }
+PAYME_SETTINGS = {
+    'DEBUG':True,   #True - test, False - production
+    'ID':'',  
+    'SECRET_KEY':'',
+    'ACCOUNTS':{
+        'KEY_1':'order_id',
+        'KEY_2':'',
+    }
 }
 
 # urls.py
@@ -47,3 +47,7 @@ urlpatterns = [
 python manage.py migrate
 python manage.py runserver
 ```
+
+## Documentation
+ - payme.uz [docs](https://help.paycom.uz/ru/metody-subscribe-api)
+ - django-rest-framework [docs](https://www.django-rest-framework.org/)
