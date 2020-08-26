@@ -1,6 +1,6 @@
 ## Introduction
 
-this package helps to integrate [payme.uz](http://payme.uz) and your application is built on django.
+this package helps to integrate [payme.uz](http://payme.uz) and your application is built on [django](https://www.djangoproject.com/).
 
 ## Installation
 
@@ -40,4 +40,10 @@ urlpatterns = [
     ...
     path('api/payme/',include('paymeuz.urls'))
 ]
+```
+
+## Get started
+```bash
+python manage.py migrate
+python manage.py runserver
 ```
