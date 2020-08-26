@@ -4,8 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from paymeuz.serializers import SubscribeSerializer
-from paymeuz.config import URL, AUTHORIZATION, KEY_1, KEY_2
-from paymeuz.methods import CARD_CREATE, CARD_VERIFY, CARD_GET_VERIFY_CODE, RECEIPTS_CREATE, RECEIPTS_PAY
+from paymeuz.config import *
+from paymeuz.methods import *
+from paymeuz.models import Transaction
 
 
 class CardCreateApiView(APIView):
@@ -106,6 +107,15 @@ class PaymentApiView(APIView):
             return result
 
         id = result['result']['receipt']['_id']
+        trans = Transaction()
+        trans.create_transaction(
+            trans_id=id,
+            request_id=result['id'],
+            amount=result['result']['receipt']['amount'],
+            account=result['result']['receipt']['account'],
+            state=result['result']['receipt']['state'],
+            status=trans.PROCESS,
+        )
         result = self.receipts_pay(id, token)
         return result
 
@@ -119,6 +129,21 @@ class PaymentApiView(APIView):
         )
         response = requests.post(URL, json=data, headers=AUTHORIZATION)
         result = response.json()
+        trans = Transaction()
+
+        if 'error' in result:
+            trans.update_transaction(
+                trans_id=result['result']['receipt']['_id'],
+                state=result['result']['receipt']['state'],
+                status=trans.FAILED,
+            )
+            return result
+
+        trans.update_transaction(
+            trans_id=result['result']['receipt']['_id'],
+            state=result['result']['receipt']['state'],
+            status=trans.PAID,
+        )
 
         return result
 
