@@ -1,7 +1,7 @@
 ![dj_logo](https://i.pinimg.com/originals/73/b8/f2/73b8f2cac59ab9fb4078241808fbb507.jpg)
 ## Introduction
 
-this package helps to integrate [payme.uz](http://payme.uz) and your application is built on [django](https://www.djangoproject.com/).
+This package helps to integrate [payme.uz](http://payme.uz) and your application is built on [django](https://www.djangoproject.com/).
 
 ## Installation
 
@@ -58,7 +58,7 @@ Host: http://127.0.0.1:8000/api/payme/card/create/
     "id": 123,
     "params": {
         "card": { "number": "4444444444444444", "expire": "0420"},
-        "amount": 350000, 
+        "amount": 500000, 
         "save": true
     }
 }
@@ -144,7 +144,7 @@ Host: http://127.0.0.1:8000/api/payme/payment/
       "error": null,
       "description": "",
       "detail": null,
-      "amount": 3500,
+      "amount": 500000,
       "commission": 0,
       "account": [
         {
