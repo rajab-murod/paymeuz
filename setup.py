@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="paymeuz",
-    version="0.1",
+    version="0.2",
     author="rajab-murod",
     author_email="rajab.murod1995@gmail.com",
     description="paymeuz",
