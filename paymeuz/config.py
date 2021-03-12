@@ -1,7 +1,7 @@
 from django.conf import settings
 
 DEBUG = settings.PAYME_SETTINGS['DEBUG']
-AUTHORIZATION = {'X-Auth': settings.PAYME_SETTINGS['ID']}
+AUTHORIZATION = {'X-Auth': '{}:{}'.format(settings.PAYME_SETTINGS['ID'], settings.PAYME_SETTINGS['SECRET_KEY'])}
 KEY_1 = settings.PAYME_SETTINGS['ACCOUNTS']['KEY_1']
 KEY_2 = settings.PAYME_SETTINGS['ACCOUNTS'].get('KEY_2', 'order_type')
 TEST_URL = 'https://checkout.test.paycom.uz/api/'
